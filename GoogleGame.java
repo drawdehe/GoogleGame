@@ -9,25 +9,27 @@
  *
  */
 import java.util.Random;
+import java.util.Scanner;
 
 public class GoogleGame {
 	private Player playerOne;
 	private Player playerTwo;
 	private char letter;
 	private Random rand;
+	private Scanner scan;
 	private String alphabet;
 	private int round;
 	
 	public GoogleGame(Player playerOne, Player playerTwo) {
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
-		round = 0;
+		rand = new Random();
+		scan = new Scanner(System.in);
+		round = 1;
 		alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	}
-	public void generateLetter() {
-		//Throws an error at the moment
-		char letter = alphabet.charAt(rand.nextInt(alphabet.length()));
-		round++;
+	private void generateLetter() {
+		letter = alphabet.charAt(rand.nextInt(alphabet.length()));
 	}
 	public char getLetter() {
 		return letter;
@@ -45,8 +47,16 @@ public class GoogleGame {
 			return playerTwo;
 		} 
 	}
+	public void startRound() {
+		System.out.println("Round " + round);
+		generateLetter();
+		System.out.println("The letter is: " + letter + "\n");
+		round++;
+	}
 	public void startGame() {
-		
+		while (round < 12) {
+			startRound();
+		}
 	}
 	public static void main (String args[]) {
 		
@@ -56,7 +66,6 @@ public class GoogleGame {
 		Player p2 = new Player("Freddy");
 		GoogleGame game = new GoogleGame(p1, p2);
 		
-		game.generateLetter();
-		System.out.println(game.getLetter());
+		game.startGame();
 	}
 }
