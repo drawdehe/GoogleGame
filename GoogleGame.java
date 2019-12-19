@@ -8,23 +8,24 @@
  * 3 letters that has the most hits on Google. After 11 rounds, the game ends. The player with the highest score wins.
  *
  */
+import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class GoogleGame {
 	private Player playerOne;
 	private Player playerTwo;
 	private char letter;
-	private Random rand;
-	private Scanner scan;
+	private Random rand = new Random();
+	private Scanner scan = new Scanner(System.in);
+	private Timer timer = new Timer();
 	private String alphabet;
 	private int round;
 	
 	public GoogleGame(Player playerOne, Player playerTwo) {
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
-		rand = new Random();
-		scan = new Scanner(System.in);
 		round = 1;
 		alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	}
@@ -37,6 +38,13 @@ public class GoogleGame {
 	public int getRound() {
 		return round;
 	}
+	private void input() {
+		System.out.println("Player One: ");
+		playerOne.setWord(scan.next());
+		System.out.println("Player Two: ");
+		playerTwo.setWord(scan.next());
+		System.out.print("\n");
+	}
 	public Player getLeader() {
 		if (playerOne.getScore() == playerTwo.getScore()) {
 			return null;
@@ -48,9 +56,26 @@ public class GoogleGame {
 		} 
 	}
 	public void startRound() {
+		//long startTime = System.currentTimeMillis();
+		//long elapsedTime = 0;
 		System.out.println("Round " + round);
 		generateLetter();
 		System.out.println("The letter is: " + letter + "\n");
+		input();
+		
+		//Implement scraper that calculates hits
+		
+		if (playerOne.getHits() == playerTwo.getHits()) {
+			return;
+		}
+		if (playerOne.getHits() > playerTwo.getHits()) {
+			playerOne.setScore(playerOne.getScore() + 1);
+		} else {
+			playerTwo.setScore(playerTwo.getScore() + 1);
+		}
+		/*while(elapsedTime < 10*1000) {
+			elapsedTime = (new Date()).getTime() - startTime;
+		}*/
 		round++;
 	}
 	public void startGame() {
@@ -60,7 +85,7 @@ public class GoogleGame {
 	}
 	public static void main (String args[]) {
 		
-		//Test of one round
+		//Test of one game
 		
 		Player p1 = new Player("Steve");
 		Player p2 = new Player("Freddy");
