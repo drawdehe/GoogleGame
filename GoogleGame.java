@@ -5,31 +5,32 @@
  * A game where two players battle to get the most Google hits.
  * 
  * Rules: Every round, the game randomly selects a letter. The players are supposed to find a word of at least
- * 3 letters that has the most hits on Google. After 11 rounds, the game ends. The player with the highest score wins.
+ * 3 letters that has the most hits on Google. After 11 rounds, the game ends. The person with the highest score wins.
  *
  */
-import java.util.Date;
 import java.util.Random;
+//import java.util.Timer;
 import java.util.Scanner;
-import java.util.Timer;
 
 public class GoogleGame {
 	private Player playerOne;
 	private Player playerTwo;
 	private char letter;
-	private Random rand = new Random();
-	private Scanner scan = new Scanner(System.in);
-	private Timer timer = new Timer();
+	private Random rand;
+	private Scanner scan;
 	private String alphabet;
 	private int round;
+	//private Timer timer;
 	
 	public GoogleGame(Player playerOne, Player playerTwo) {
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
+		rand = new Random();
+		scan = new Scanner(System.in);
 		round = 1;
 		alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	}
-	private void generateLetter() {
+	public void generateLetter() {
 		letter = alphabet.charAt(rand.nextInt(alphabet.length()));
 	}
 	public char getLetter() {
@@ -37,13 +38,6 @@ public class GoogleGame {
 	}
 	public int getRound() {
 		return round;
-	}
-	private void input() {
-		System.out.println("Player One: ");
-		playerOne.setWord(scan.next());
-		System.out.println("Player Two: ");
-		playerTwo.setWord(scan.next());
-		System.out.print("\n");
 	}
 	public Player getLeader() {
 		if (playerOne.getScore() == playerTwo.getScore()) {
@@ -55,42 +49,64 @@ public class GoogleGame {
 			return playerTwo;
 		} 
 	}
-	public void startRound() {
-		//long startTime = System.currentTimeMillis();
-		//long elapsedTime = 0;
-		System.out.println("Round " + round);
-		generateLetter();
-		System.out.println("The letter is: " + letter + "\n");
-		input();
-		
-		//Implement scraper that calculates hits
-		
-		if (playerOne.getHits() == playerTwo.getHits()) {
-			return;
-		}
-		if (playerOne.getHits() > playerTwo.getHits()) {
-			playerOne.setScore(playerOne.getScore() + 1);
-		} else {
-			playerTwo.setScore(playerTwo.getScore() + 1);
-		}
-		/*while(elapsedTime < 10*1000) {
-			elapsedTime = (new Date()).getTime() - startTime;
-		}*/
-		round++;
-	}
 	public void startGame() {
+		System.out.println("Enter the name of player one: ");
+		Player p1 =  new Player(scan.next());
+		System.out.println("Enter the name of player two: ");
+		Player p2 =  new Player(scan.next());
+		GoogleGame game = new GoogleGame(p1, p2);
+		
 		while (round < 12) {
-			startRound();
+			game.generateLetter();
+			
+			System.out.println("Round: " + round);
+			System.out.println("The letter is: " + letter + "\n");
+			
+			System.out.println("Enter player one word: ");
+			p1.setWord(scan.next());
+			
+			System.out.println("Enter player two word: ");
+			p2.setWord(scan.next());
+			
+			System.out.println("\n Player one wrote: " + p1.getWord());
+			System.out.println("Player two wrote: " + p2.getWord());
+			
 		}
 	}
 	public static void main (String args[]) {
 		
-		//Test of one game
+		//Only for test purposes
 		
-		Player p1 = new Player("Steve");
-		Player p2 = new Player("Freddy");
+		Scanner scan = new Scanner(System.in);
+		Random rand = new Random();
+		int round = 1;
+		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		char letter;
+		
+		System.out.println("Enter the name of player one: ");
+		Player p1 =  new Player(scan.next());
+		System.out.println("Enter the name of player two: ");
+		Player p2 =  new Player(scan.next());
 		GoogleGame game = new GoogleGame(p1, p2);
 		
-		game.startGame();
+		while (round < 12) {
+			letter = alphabet.charAt(rand.nextInt(alphabet.length()));
+			System.out.println();
+			
+			System.out.println("Round: " + round);
+			System.out.println("The letter is: " + letter + "\n");
+			
+			System.out.println("Enter the word of player one: ");
+			p1.setWord(scan.next());
+			
+			System.out.println("Enter the word of player two: ");
+			p2.setWord(scan.next());
+			System.out.println();
+			
+			System.out.println("Player one wrote: " + p1.getWord());
+			System.out.println("Player two wrote: " + p2.getWord());
+			
+			round++;
+		}
 	}
 }
