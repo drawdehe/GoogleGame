@@ -12,7 +12,7 @@ import java.util.Random;
 //import java.util.Timer;
 import java.util.Scanner;
 
-public class GoogleGame {
+public class Game {
 	private Player playerOne;
 	private Player playerTwo;
 	private char letter;
@@ -22,7 +22,7 @@ public class GoogleGame {
 	private int round;
 	//private Timer timer;
 	
-	public GoogleGame(Player playerOne, Player playerTwo) {
+	public Game(Player playerOne, Player playerTwo) {
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
 		rand = new Random();
@@ -30,6 +30,7 @@ public class GoogleGame {
 		round = 1;
 		alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	}
+	//Might delete this method
 	public void generateLetter() {
 		letter = alphabet.charAt(rand.nextInt(alphabet.length()));
 	}
@@ -54,30 +55,35 @@ public class GoogleGame {
 		Player p1 =  new Player(scan.next());
 		System.out.println("Enter the name of player two: ");
 		Player p2 =  new Player(scan.next());
-		GoogleGame game = new GoogleGame(p1, p2);
+		
+		playerOne = p1;
+		playerTwo = p2;
 		
 		while (round < 12) {
-			game.generateLetter();
+			letter = alphabet.charAt(rand.nextInt(alphabet.length()));
 			
-			System.out.println("Round: " + round);
+			System.out.println("\nRound: " + round);
 			System.out.println("The letter is: " + letter + "\n");
 			
-			System.out.println("Enter player one word: ");
+			System.out.println("Enter the word of " + p1.getName() + ": ");
 			p1.setWord(scan.next());
 			
-			System.out.println("Enter player two word: ");
+			System.out.println("Enter the word of " + p2.getName() + ": ");
 			p2.setWord(scan.next());
 			
-			System.out.println("\n Player one wrote: " + p1.getWord());
-			System.out.println("Player two wrote: " + p2.getWord());
+			System.out.println("\n" + p1.getName() + " wrote: " + p1.getWord());
+			System.out.println(p2.getName() + " wrote: " + p2.getWord());
 			
+			//Implement scraper
+			
+			round++;
 		}
 	}
 	public static void main (String args[]) {
 		
 		//Only for test purposes
 		
-		Scanner scan = new Scanner(System.in);
+		/*Scanner scan = new Scanner(System.in);
 		Random rand = new Random();
 		int round = 1;
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -87,7 +93,7 @@ public class GoogleGame {
 		Player p1 =  new Player(scan.next());
 		System.out.println("Enter the name of player two: ");
 		Player p2 =  new Player(scan.next());
-		GoogleGame game = new GoogleGame(p1, p2);
+		Game game = new Game(p1, p2);
 		
 		while (round < 12) {
 			letter = alphabet.charAt(rand.nextInt(alphabet.length()));
@@ -107,6 +113,6 @@ public class GoogleGame {
 			System.out.println("Player two wrote: " + p2.getWord());
 			
 			round++;
-		}
+		}*/
 	}
 }
